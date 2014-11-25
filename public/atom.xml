@@ -4,7 +4,7 @@
   <title><![CDATA[Jerry's Blog - 雷一鸣的博客]]></title>
   <link href="http://showmylym.github.io/atom.xml" rel="self"/>
   <link href="http://showmylym.github.io/"/>
-  <updated>2014-11-18T21:59:09+08:00</updated>
+  <updated>2014-11-25T23:18:22+08:00</updated>
   <id>http://showmylym.github.io/</id>
   <author>
     <name><![CDATA[Jerry(雷一鸣)]]></name>
@@ -12,5 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[第一篇-the First One]]></title>
+    <link href="http://showmylym.github.io/blog/2014/11/25/di-%5B%3F%5D-pian-the-first-one/"/>
+    <updated>2014-11-25T22:46:27+08:00</updated>
+    <id>http://showmylym.github.io/blog/2014/11/25/di-[?]-pian-the-first-one</id>
+    <content type="html"><![CDATA[<p>我的第一篇博客，预示着从此开始记录技术积累点滴。
+今后将把遇到的问题以及开发心得贴出来，供自己总结，也为后来者提供参考。</p>
+
+<p>This is my first blog, and it means recording my developing experience from now on. In the future, I&rsquo;ll post questions and answers encountered, as summurized words for newcomers.</p>
+
+<p>There&rsquo;s a lightening future, and I will always insist on myself.
+<img src="http://showmylym.github.io/images/bg.png" alt="背景图片" /></p>
+]]></content>
+  </entry>
   
 </feed>
