@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 杂谈 | 电一闪的博客]]></title>
+  <link href="http://showmylym.github.io/blog/categories/za-tan/atom.xml" rel="self"/>
+  <link href="http://showmylym.github.io/"/>
+  <updated>2014-11-29T18:51:09+08:00</updated>
+  <id>http://showmylym.github.io/</id>
+  <author>
+    <name><![CDATA[雷一鸣-Jerry]]></name>
+    <email><![CDATA[showmylym@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[第一篇-the First One]]></title>
+    <link href="http://showmylym.github.io/blog/2014/11/25/di-yi-pian-the-first-one/"/>
+    <updated>2014-11-25T22:46:27+08:00</updated>
+    <id>http://showmylym.github.io/blog/2014/11/25/di-yi-pian-the-first-one</id>
+    <content type="html"><![CDATA[<p>我的第一篇博客，预示着从此开始记录技术积累点滴。
+今后将把遇到的问题以及开发心得贴出来，供自己总结，也为后来者提供参考。</p>
+
+<p>This is my first blog, and it means recording my developing experience from now on. In the future, I&rsquo;ll post questions and answers encountered, as summurized words for newcomers.</p>
+
+<p>There&rsquo;s a lightening future, and I will always insist on myself.
+<img src="/images/bg.png" alt="背景图片" /></p>
+]]></content>
+  </entry>
+  
+</feed>

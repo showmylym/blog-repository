@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[电一闪的博客]]></title>
-  <link href="http://showmylym.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Web | 电一闪的博客]]></title>
+  <link href="http://showmylym.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://showmylym.github.io/"/>
   <updated>2014-11-29T18:51:09+08:00</updated>
   <id>http://showmylym.github.io/</id>
@@ -20,7 +20,7 @@
     <id>http://showmylym.github.io/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti</id>
     <content type="html"><![CDATA[<p>　　其实早在两年前，我在<a href="http://www.cnblogs.com/showmylym" title="博客园">博客园</a>创建过个人博客，零零散散写了些很业余的东西，没有系统性地写，与编程也没有太大关系，没能坚持。在最近的工作中，有了分享意识，并且发现一个知识点如果能够给别人讲懂，知识点会融入进自己的知识体系，理解程度会有质的变化。因此决定重新做一个专业的博客，一来给自己总结，二来可能会帮助到其他人。虽然国内技术博客站不少，但大多都掺杂太多广告，不够纯粹，考虑到平时频繁用到github找代码，遂决定在github上建博客，与自己的开源代码结合。这次一定可以坚持下去:)<br/>
 　　不过一上来就碰到国内打开博客页面慢的问题，且翻墙时灵时不灵。跟了一下页面加载的过程，发现首页有四个链接加载超时，如下图1-1。<br/>
-<img src="http://showmylym.github.io/images/1/1-1.png" title="图1-1" alt="图1-1" /><br/>
+<img src="/images/1/1-1.png" title="图1-1" alt="图1-1" /><br/>
 图1-1<br/>
 　　Copy出来，四个URL如下：<br/>
 　　<code>https://fonts.googleapis.com/css?family=Open+Sans:400,700</code><br/>
@@ -31,42 +31,27 @@
 　　打开octopress博客源代码的source目录，使用grep命令搜索内容中带有&#8221;script&#8221;的文件(i为忽略大小写，r为递归查找，l为以文件列表形式显示)。<br/>
 　　<code>grep -irl script | grep htm</code><br/>
 　　搜索结果如下图1-2。<br/>
-<img src="http://showmylym.github.io/images/1/1-2.png" title="图1-2" alt="图1-2" /><br/>
+<img src="/images/1/1-2.png" title="图1-2" alt="图1-2" /><br/>
 图1-2<br/>
 　　文件有点多，不好找。考虑过后，决定直接搜索图1-1中标红的那几个URL。搜索命令分别为：<br/>
 　　<code>grep -irl jquery | grep htm</code> <br/>
 　　<code>grep -irl https://fonts.googleapis.com/css?family=Noto+Serif:400,700 | grep htm</code> <br/>
 　　<code>grep -irl https://fonts.googleapis.com/css?family=Open+Sans:400,700 | grep htm</code> <br/>
 　　根据结果了解到，调用这三条URL的执行语句，在<em>includes/head.html和</em>includes/custom/head.html中，对其做如下图1-3和图1-4的修改。<br/>
-<img src="http://showmylym.github.io/images/1/1-3.png" title="图1-3" alt="图1-3" /><br/>
+<img src="/images/1/1-3.png" title="图1-3" alt="图1-3" /><br/>
 图1-3<br/>
-<img src="http://showmylym.github.io/images/1/1-4.png" title="图1-4" alt="图1-4" /><br/>
+<img src="/images/1/1-4.png" title="图1-4" alt="图1-4" /><br/>
 图1-4<br/>
 　　修改完毕刷新页面。页面显示很快，但在Chrome的网络控制台上，显示还有4个URL访问缓慢，如下图1-5。<br/>
-<img src="http://showmylym.github.io/images/1/1-5.png" title="图1-5" alt="图1-5" /><br/>
+<img src="/images/1/1-5.png" title="图1-5" alt="图1-5" /><br/>
 图1-5<br/>
 　　继续搜索关键字&#8221;gstatic&#8221;<br/>
 　　<code>grep -irl gstatic</code><br/>
 　　搜索结果如下图1-6<br/>
-<img src="http://showmylym.github.io/images/1/1-6.png" title="图1-6" alt="图1-6" /><br/>
+<img src="/images/1/1-6.png" title="图1-6" alt="图1-6" /><br/>
 图1-6<br/>
 　　打开这两个刚刚创建的css样式文件，很明显可以看到其引用了不少gstatic.com上存储的woff2格式的web开放字体文件。目前还没发觉其对页面显示有何影响，花点时间将它们定位到本地吧。<br/>
 　　哈哈，问题到此已解决，打开首页显示速度快多了:)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[第一篇-the First One]]></title>
-    <link href="http://showmylym.github.io/blog/2014/11/25/di-yi-pian-the-first-one/"/>
-    <updated>2014-11-25T22:46:27+08:00</updated>
-    <id>http://showmylym.github.io/blog/2014/11/25/di-yi-pian-the-first-one</id>
-    <content type="html"><![CDATA[<p>我的第一篇博客，预示着从此开始记录技术积累点滴。
-今后将把遇到的问题以及开发心得贴出来，供自己总结，也为后来者提供参考。</p>
-
-<p>This is my first blog, and it means recording my developing experience from now on. In the future, I&rsquo;ll post questions and answers encountered, as summurized words for newcomers.</p>
-
-<p>There&rsquo;s a lightening future, and I will always insist on myself.
-<img src="http://showmylym.github.io/images/bg.png" alt="背景图片" /></p>
 ]]></content>
   </entry>
   

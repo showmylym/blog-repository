@@ -21,4 +21,4 @@ layout: default
   </div>
 </div>
 {% include aside.html %}
-{% include custom/asides/about.html %}
+{% include _includes/custom/asides/about.html %}
