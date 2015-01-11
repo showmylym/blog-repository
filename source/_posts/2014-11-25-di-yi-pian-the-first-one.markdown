@@ -12,4 +12,4 @@ categories: 杂谈
 This is my first blog, and it means recording my developing experience from now on. In the future, I'll post questions and answers encountered, as summurized words for newcomers.
 
 There's a lightening future, and I will always insist on myself.
-![背景图片](/images/bg.png)
+
