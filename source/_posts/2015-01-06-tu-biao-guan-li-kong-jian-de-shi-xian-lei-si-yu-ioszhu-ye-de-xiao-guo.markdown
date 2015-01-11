@@ -13,27 +13,27 @@ categories: 控件
 　　  
 　　  
 　　以下是控件演示：    
-　　![图2-12](/images/2/2-12.gif "图2-12")  
-　　![图2-13](/images/2/2-13.gif "图2-13")  
-　　![图2-14](/images/2/2-14.gif "图2-14")  
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-12.gif" title="图片2-12" alt="图片2-12"/>  
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-13.gif" title="图片2-13" alt="图片2-13"/>  
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-14.gif" title="图片2-14" alt="图片2-14"/>  
 
 　　纵观iOS App市场，有类似实现效果的应用不少，如下截图：    
 ####*优酷视频iPad客户端*管理离线视频
-　　![图2-1](/images/2/2-1.png "图2-1")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-1.PNG" title="图片2-1" alt="图片2-1"/>    
 ####*微信讨论组*增删人员
-　　![图2-2](/images/2/2-2.png "图2-2")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-2.PNG" title="图片2-2" alt="图片2-2"/>    
 ####*有信收藏栏*
-　　![图2-3](/images/2/2-3.png "图2-3")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-3.PNG" title="图片2-3" alt="图片2-3"/>    
 ####*有信照片墙*
-　　![图2-4](/images/2/2-4.png "图2-4")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-4.PNG" title="图片2-4" alt="图片2-4"/>    
 ###大致工作流程为：    
 　　1、点击可选择，类似于UITableView的didSelect方法。    
 　　2、长按一个cell，触发编辑状态。编辑状态的cell将放大显示，所有图标将以角度3°轻微旋转，表示当前的拖动编辑状态。处于编辑状态的cell可以被删除、被拖动重排序，但不能触发点击回调，两种操作都有回调暴露，在代理对象中编写具体实现。    
 　　3、若数据源层级中添加了新的cell，只需[draggableView reloadData]调用一次即可刷新UI。刷新完成时，draggableView向代理对象发送didResizeWithFrame消息，代理实现可根据此回调适时改变视图中UIScrollView的contentSize，适应新内容大小。    
 ####下图为正常状态下各个部分的有效区域：    
-　　![图2-5](/images/2/2-5.png "图2-5")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-5.png" title="图片2-5" alt="图片2-5"/>    
 ####下图为编辑状态下各个部分的有效区域：    
-　　![图2-6](/images/2/2-6.png "图2-6")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-6.png" title="图片2-6" alt="图片2-6"/>    
 ###大致使用流程为：    
 ####1、初始化：
 　　`self.mainDraggableView = [[LYMDraggableView alloc] initWithFrame:CGRectMake(0.0, 0.0, screenWidth, draggableViewHeight) layoutType:LYMDraggableViewLayoutByColumnNum horizontalMargin:0.0 verticalMargin:0.0 vSpace:4.0 maxColumn:4.0 cornerRadius:nil];`    
@@ -47,12 +47,12 @@ categories: 控件
 　　`+ (CGFloat)heightOfDraggableViewFromVMargin:(CGFloat)vmargin cellHeight:(CGFloat)cellHeight vSpace:(CGFloat)vSpace itemsCount:(NSUInteger)itemsCount;
 `    
 　　得到预计高度。实际情况证明，rect的宽高值有一项为0时，界面中的所有添加在此容器view中的subview，其autoresizing机制将出现异常（autolayout不知，没试过，类推情况应该类似）。    
-　　![图2-7](/images/2/2-7.jpg "图2-7")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-7.jpg" title="图片2-7" alt="图片2-7"/>    
 　　如上图2-7，根据官方文档里对其中一种autoresizing类型——UIViewAutoresizingFlexibleLeftMargin的描述原文：The distance between the view’s left edge and the superview’s left edge grows or shrinks as needed.    
 　　意为：view的左边与其superView的左边距离，可根据实际情况动态增大或减小。也就是说，如果启用此种autoresizing类型，view与superView之间的右边距是保持不变的。因此，若supeView没有设置正确的初始rect（例如width为0），view将无法自动管理与superView之间的左边距。    
 　　在DraggableView的初始化方法中，会检测height是否为0。若为0，则自动将其赋值为1。    
 　　下图2-8为起初编写DraggableCell初始化方法时未给予titleLabel合法height（height > 0）的结果——label上的text无故消失。    
-　　![图2-8](/images/2/2-8.png "图2-8")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-8.png" title="图片2-8" alt="图片2-8"/>    
 ####２、实现数据源方法
 　　`- (NSInteger)numberOfCellsInDraggableView:(LYMDraggableView *)draggableView; // 返回cell的个数`    
 　　`- (CGSize)cellContentViewSizeInDraggableView:(LYMDraggableView *)draggableView; // 返回cell的contentSize，Demo中将宽高值都乘以了屏幕比例系数，以适配大屏`    
@@ -89,11 +89,11 @@ categories: 控件
 #####具体做法是：
 #####1、关键位置写好注释。必要时在方法声明处使用VVDocumenter插件生成Xcode注释，效果如下图2-9、2-10.  
 ######注释的样子
-　　![图2-9](/images/2/2-9.png "图2-9")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-9.png" title="图片2-9" alt="图片2-9"/>    
 ######快速查看方法说明的样子
-　　![图2-10](/images/2/2-10.png "图2-10")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-10.png" title="图片2-10" alt="图片2-10"/>    
 #####2、利用XCode的pragma分块特性提高定位效率  
-　　![图2-11](/images/2/2-11.png "图2-11")    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-11.png" title="图片2-11" alt="图片2-11"/>    
 　　客观上说，程序员不可能一直做一个功能，轮岗才能调动员工工作积极性。在创业团队，第一波带领团队开发产品的开发人员，日后一定会有更多产品需要充当前锋。同样地，对于中间介入开发的开发人员来说，无论出于职业道德在今后换阵营交接时快速且复杂度低，还是平日请个一星期病假事假由其他人暂时顶替开发，站在对方的角度编写代码，都是百利而无一害的。（这是在有信学到的^__^）。    
 　　去年听闻的一句名言：**要假想以后维护自己代码的人，是知道自己住处地址的精神病，那么写代码还会那么随意么？**  
 ###后记：
