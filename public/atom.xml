@@ -4,7 +4,7 @@
   <title><![CDATA[电一闪的博客]]></title>
   <link href="http://showmylym.github.io/atom.xml" rel="self"/>
   <link href="http://showmylym.github.io/"/>
-  <updated>2015-01-11T19:09:11+08:00</updated>
+  <updated>2015-01-11T19:38:14+08:00</updated>
   <id>http://showmylym.github.io/</id>
   <author>
     <name><![CDATA[雷一鸣(Jerry)]]></name>
@@ -27,27 +27,27 @@
 　　<br/>
 　　<br/>
 　　以下是控件演示：  <br/>
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-12.gif" title="图片2-12" alt="图片2-12"/><br/>
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-13.gif" title="图片2-13" alt="图片2-13"/><br/>
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-14.gif" title="图片2-14" alt="图片2-14"/></p>
+　　<img src="http://showmylym.github.io/images/2/2-12.gif" title="图2-12" alt="图2-12" /><br/>
+　　<img src="http://showmylym.github.io/images/2/2-13.gif" title="图2-13" alt="图2-13" /><br/>
+　　<img src="http://showmylym.github.io/images/2/2-14.gif" title="图2-14" alt="图2-14" /></p>
 
 <p>　　纵观iOS App市场，有类似实现效果的应用不少，如下截图：</p>
 
 <h4><em>优酷视频iPad客户端</em>管理离线视频</h4>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-1.PNG" title="图片2-1" alt="图片2-1"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-1.png" title="图2-1" alt="图2-1" /></p>
 
 <h4><em>微信讨论组</em>增删人员</h4>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-2.PNG" title="图片2-2" alt="图片2-2"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-2.png" title="图2-2" alt="图2-2" /></p>
 
 <h4><em>有信收藏栏</em></h4>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-3.PNG" title="图片2-3" alt="图片2-3"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-3.png" title="图2-3" alt="图2-3" /></p>
 
 <h4><em>有信照片墙</em></h4>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-4.PNG" title="图片2-4" alt="图片2-4"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-4.png" title="图2-4" alt="图2-4" /></p>
 
 <h3>大致工作流程为：</h3>
 
@@ -57,11 +57,11 @@
 
 <h4>下图为正常状态下各个部分的有效区域：</h4>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-5.png" title="图片2-5" alt="图片2-5"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-5.png" title="图2-5" alt="图2-5" /></p>
 
 <h4>下图为编辑状态下各个部分的有效区域：</h4>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-6.png" title="图片2-6" alt="图片2-6"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-6.png" title="图2-6" alt="图2-6" /></p>
 
 <h3>大致使用流程为：</h3>
 
@@ -78,12 +78,12 @@
 　　<code>+ (CGFloat)heightOfDraggableViewFromVMargin:(CGFloat)vmargin cellHeight:(CGFloat)cellHeight vSpace:(CGFloat)vSpace itemsCount:(NSUInteger)itemsCount;
 </code>  <br/>
 　　得到预计高度。实际情况证明，rect的宽高值有一项为0时，界面中的所有添加在此容器view中的subview，其autoresizing机制将出现异常（autolayout不知，没试过，类推情况应该类似）。  <br/>
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-7.jpg" title="图片2-7" alt="图片2-7"/>  <br/>
+　　<img src="http://showmylym.github.io/images/2/2-7.jpg" title="图2-7" alt="图2-7" />  <br/>
 　　如上图2-7，根据官方文档里对其中一种autoresizing类型——UIViewAutoresizingFlexibleLeftMargin的描述原文：The distance between the view’s left edge and the superview’s left edge grows or shrinks as needed.  <br/>
 　　意为：view的左边与其superView的左边距离，可根据实际情况动态增大或减小。也就是说，如果启用此种autoresizing类型，view与superView之间的右边距是保持不变的。因此，若supeView没有设置正确的初始rect（例如width为0），view将无法自动管理与superView之间的左边距。  <br/>
 　　在DraggableView的初始化方法中，会检测height是否为0。若为0，则自动将其赋值为1。  <br/>
 　　下图2-8为起初编写DraggableCell初始化方法时未给予titleLabel合法height（height > 0）的结果——label上的text无故消失。  <br/>
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-8.png" title="图片2-8" alt="图片2-8"/></p>
+　　<img src="http://showmylym.github.io/images/2/2-8.png" title="图2-8" alt="图2-8" /></p>
 
 <h4>２、实现数据源方法</h4>
 
@@ -141,15 +141,15 @@
 
 <h6>注释的样子</h6>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-9.png" title="图片2-9" alt="图片2-9"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-9.png" title="图2-9" alt="图2-9" /></p>
 
 <h6>快速查看方法说明的样子</h6>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-10.png" title="图片2-10" alt="图片2-10"/></p>
+<p>　　<img src="http://showmylym.github.io/images/2/2-10.png" title="图2-10" alt="图2-10" /></p>
 
 <h5>2、利用XCode的pragma分块特性提高定位效率</h5>
 
-<p>　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-11.png" title="图片2-11" alt="图片2-11"/>  <br/>
+<p>　　<img src="http://showmylym.github.io/images/2/2-11.png" title="图2-11" alt="图2-11" />  <br/>
 　　客观上说，程序员不可能一直做一个功能，轮岗才能调动员工工作积极性。在创业团队，第一波带领团队开发产品的开发人员，日后一定会有更多产品需要充当前锋。同样地，对于中间介入开发的开发人员来说，无论出于职业道德在今后换阵营交接时快速且复杂度低，还是平日请个一星期病假事假由其他人暂时顶替开发，站在对方的角度编写代码，都是百利而无一害的。（这是在有信学到的^__^）。  <br/>
 　　去年听闻的一句名言：<strong>要假想以后维护自己代码的人，是知道自己住处地址的精神病，那么写代码还会那么随意么？</strong></p>
 
