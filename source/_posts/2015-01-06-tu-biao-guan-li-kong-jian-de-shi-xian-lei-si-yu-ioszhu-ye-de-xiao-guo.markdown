@@ -19,13 +19,13 @@ categories: 控件
 
 　　纵观iOS App市场，有类似实现效果的应用不少，如下截图：    
 ####*优酷视频iPad客户端*管理离线视频
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-1.PNG" title="图片2-1" alt="图片2-1"/>    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-1.gif" title="图片2-1" alt="图片2-1" width="480"/>    
 ####*微信讨论组*增删人员
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-2.PNG" title="图片2-2" alt="图片2-2"/>    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-2.gif" title="图片2-2" alt="图片2-2" width="480"/>    
 ####*有信收藏栏*
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-3.PNG" title="图片2-3" alt="图片2-3"/>    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-3.gif" title="图片2-3" alt="图片2-3"/>    
 ####*有信照片墙*
-　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-4.PNG" title="图片2-4" alt="图片2-4"/>    
+　　<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/2/2-4.gif" title="图片2-4" alt="图片2-4"/>    
 ###大致工作流程为：    
 　　1、点击可选择，类似于UITableView的didSelect方法。    
 　　2、长按一个cell，触发编辑状态。编辑状态的cell将放大显示，所有图标将以角度3°轻微旋转，表示当前的拖动编辑状态。处于编辑状态的cell可以被删除、被拖动重排序，但不能触发点击回调，两种操作都有回调暴露，在代理对象中编写具体实现。    
