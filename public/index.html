@@ -9,7 +9,8 @@
   <meta name="author" content="雷一鸣(Jerry)">
 
   
-  <meta name="description" content="开发背景: 　　前段时间因工作需要，写了一个图标管理控件。日常开发中可能类似的需求不少，于是做成可复用的代码库，当作编写可复用控件的开端。 　　　　　　　　　　　　　　　　　　　　　　　　　　　－－题记 　　这个图标管理控件我为其命名为DraggableView，意为可拖动视图， &hellip;">
+  <meta name="description" content="背景 　　屏幕适配一直是老生常谈的话题，也一直是移动端app的重点之一。随着设备分辨率的逐步提高，越来越多的可能性需要在构造UI时考虑到。如何最高效率地完成所有适配，成为一个新的讨论议题。
+　　闲话稍叙，首先看两个iPhone5上的场景。 场景一 —— 微信聊天“表情选取栏” 场景二 —— &hellip;">
   
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -62,6 +63,89 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/">屏幕适配二三事（一）</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-10T08:22:12+08:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/#disqus_thread"
+             data-disqus-identifier="http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>背景</h3>
+
+<p>　　屏幕适配一直是老生常谈的话题，也一直是移动端app的重点之一。随着设备分辨率的逐步提高，越来越多的可能性需要在构造UI时考虑到。如何最高效率地完成所有适配，成为一个新的讨论议题。<br/>
+　　闲话稍叙，首先看两个iPhone5上的场景。</p>
+
+<h3>场景一 —— 微信聊天“表情选取栏”</h3>
+
+<p><img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E5%BE%AE%E4%BF%A1%E8%A1%A8%E6%83%85%E9%A6%96%E9%A1%B55c.jpg" title="微信聊天“表情选取栏”" alt="微信聊天“表情选取栏”"/></p>
+
+<h3>场景二 —— 支付宝宫格样式首页</h3>
+
+<p><img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E6%94%AF%E4%BB%98%E5%AE%9D%E5%AE%AB%E6%A0%BC%E9%A6%96%E9%A1%B55c.jpg" title="微信聊天“表情选取栏”" alt="微信聊天“表情选取栏”"/></p>
+
+<h3>场景解析</h3>
+
+<p>　　如上所示，场景一和场景二是能够频繁碰到的多屏适配情况，但两者适配策略略有不同。<br/>
+　　前者属于散列布局，UI整体由众多相同类型的元素排列而成，适配时存在调整margin和space的可能性。因其元素本身较小，为了保证整体的保真度，无论何种屏幕，必须优先表情主体突出的原则，避免放大space，喧宾夺主。因此最佳的适配手段，是保持原有各项元素尺寸和space不变，挨个排入，不足一个元素单位的空间并入margin，适配对比如下图。<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E5%BE%AE%E4%BF%A1%E8%A1%A8%E6%83%85%E9%A6%96%E9%A1%B5%E5%AF%B9%E6%AF%94.jpg" title="微信聊天“表情选取栏”首页对比" alt="微信聊天“表情选取栏”首页对比"/><br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E5%BE%AE%E4%BF%A1%E8%A1%A8%E6%83%85%E6%9C%AB%E9%A1%B5%E5%AF%B9%E6%AF%94.jpg" title="微信聊天“表情选取栏”末页对比" alt="微信聊天“表情选取栏”末页对比"/><br/>
+　　而后者属于全屏式布局，space不存在，看到的无内容区域属于独立元素单位内部的margin，整体仍被划分为等分的几个元素单位，它们瓜分屏幕，不留任何元素单位之间的外部margin。这种布局有两个适配要点，一个是单行的元素单位数量保持不变；另一个是元素单位内的主体成比例放大，放大的量级与屏幕放大系数（大屏宽除以小屏宽，我是这么定义的）相关。众所周知，5c上屏幕宽度为320（单倍像素，下同），屏幕系数为2；而6p上屏幕宽度为414，屏幕系数为3。因此，放大系数就是 414.0 / 320.0 ≈ 1.29 。如果4个元素单位一行，在5c上{80 x 120}的元素单位，6p上就是{103.5 x 155.25}，内部文本字体大小x1.29，icon同字体放大倍数。处理后，等比例放大的效果与放大前基本一致，如下图。<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E6%94%AF%E4%BB%98%E5%AE%9D%E5%AE%AB%E6%A0%BC%E9%A6%96%E9%A1%B5%E5%AF%B9%E6%AF%94.png" title="微信聊天“表情选取栏”末页对比" alt="微信聊天“表情选取栏”末页对比"/></p>
+
+<h3>各种iOS设备分辨率一览</h3>
+
+<pre><code>设备         单倍分辨率    倍数  实际分辨率  
+iPhone6P    {414, 736}   3x   {1242 x 2208}  
+iPhone6     {375, 667}   2x   {750  x 1334}  
+iPhone5     {320, 568}   2x   {640  x 1136}  
+iPhone4     {320, 480}   2x   {640  x 960}  
+
+设备             单倍分辨率     倍数  实际分辨率  
+iPad 2(mini)    {768, 1024}   1x   {768  x 1024}  
+iPad mini 2(3)  {768 x 1024}  2x   {1536 x 2048}  
+iPad air 1(2)   {768 x 1024}  2x   {1536 x 2048}  
+iPad 3(4)       {768 x 1024}  2x   {1536 x 2048}  
+</code></pre>
+
+<h3>适配手段一 纯代码构造UI</h3>
+
+<p>　　核心思路：使用相对坐标确定位置，使用占屏幕的比例控制宽度/高度，另外高度/宽度根据内容自适应。</p>
+
+<h3>后记：</h3>
+
+<p>　　天生平凡，但决不甘于平凡。人活着就是要做一些伟大的事以慰藉生命。
+　　</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -328,50 +412,6 @@ self.mainDraggableView.backgroundColor = [UIColor whiteColor];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/25/di-yi-pian-the-first-one/">第一篇-the First One</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-25T22:46:27+08:00" pubdate data-updated="true"></time>
-        
-           | <a href="/blog/2014/11/25/di-yi-pian-the-first-one/#disqus_thread"
-             data-disqus-identifier="http://showmylym.github.io/blog/2014/11/25/di-yi-pian-the-first-one/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我的第一篇博客，预示着从此开始记录技术积累点滴。
-今后将把遇到的问题以及开发心得贴出来，供自己总结，也为后来者提供参考。</p>
-
-<p>This is my first blog, and it means recording my developing experience from now on. In the future, I&rsquo;ll post questions and answers encountered, as summurized words for newcomers.</p>
-
-<p>There&rsquo;s a lightening future, and I will always insist on myself.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
     <a href="/blog/archives">查看博客列表</a>
@@ -393,15 +433,15 @@ self.mainDraggableView.backgroundColor = [UIColor whiteColor];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/">屏幕适配二三事（一）</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/01/06/tu-biao-guan-li-kong-jian-de-shi-xian-lei-si-yu-ioszhu-ye-de-xiao-guo/">图标管理控件的实现-类似于iOS主页的效果</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti/">GithubPage页面国内打开缓慢的问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/25/di-yi-pian-the-first-one/">第一篇-the First One</a>
       </li>
     
   </ul>
