@@ -19,7 +19,7 @@ iPhone6P（放大） {375 x 667} 3x {1125 x 2001} { &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi">
+  <link rel="canonical" href="http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi-1">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="电一闪的博客" type="application/atom+xml">
@@ -110,12 +110,12 @@ iPad air 1(2)   {768 x 1024}  2x   {1536 x 2048}
 iPad 3(4)       {768 x 1024}  2x   {1536 x 2048}  
 </code></pre>
 
-<p>　　由于iPhone 6系设备（包括6 plus）情况特殊，存在标准和放大两种显示模式，导致渲染时分辨率略有不同，不过渲染后最终其UI在缩放显示时的屏幕分辨率是确定的。但实际显示时由于屏幕硬件限制，会强行缩放为{1080 x 1920}显示，故本文中的屏幕截图全部取自标准模式和1x（严格意义上说，放大模式和标准模式在app测试时都不能放过）。</p>
+<p>　　由于iPhone 6系设备（包括6 plus）情况特殊，存在标准和放大两种显示模式，导致渲染时分辨率略有不同，不过渲染后最终其UI在缩放显示时的屏幕分辨率是确定的(<a href="http://www.paintcodeapp.com/news/ultimate-guide-to-iphone-resolutions" title="iPhone分辨率详解">详情戳这里</a>)。特别是iPhone 6 Plus，由于屏幕硬件限制，会强行缩放为{1080 x 1920}显示，故本文中的屏幕截图全部取自标准模式和1x（严格意义上说，放大模式和标准模式在app测试时都不能放过）。</p>
 
 <h3>背景</h3>
 
 <p>　　屏幕适配一直是老生常谈的话题，也一直是移动端app的重点之一。Apple每次新设备的发布，都会给iOS开发者带来一场灾难。如何最高效率地完成所有适配，成为一个新的讨论议题。<br/>
-　　闲话稍叙，上场景。</p>
+　　闲话稍叙，看场景。</p>
 
 <h3>场景一 —— 微信聊天“表情选取栏”</h3>
 
@@ -160,7 +160,7 @@ iPad 3(4)       {768 x 1024}  2x   {1536 x 2048}
 </code></pre>
 
 <p>　　还有6px，可能在未标注的行间距中，每个间距1像素。<br/>
-　　实际上，输入法键盘这类元素众多的UI，适配起来也可大致遵从场景二的方法，水平方向：原始总宽度320.0 * 屏幕放大系数(6p为1.29，6为1.17)，包含的所有控件宽度也都乘以同一系数；竖直方向：原始总高度同样乘以屏幕放大系数，包含的控件同理。这样，做到不失真地放大，连带以后新出的设备屏幕也一并兼容了。
+　　实际上，输入法键盘这类元素众多的UI，适配起来也可大致遵从场景二的方法，水平方向：原始总宽度320.0 * 屏幕放大系数(6p为1.29，6为1.17)，包含的所有控件宽度也都乘以同一系数；竖直方向：原始总高度同样乘以屏幕放大系数，包含的控件同理。这样，做到不失真地放大，连带以后新出的设备屏幕也一并兼容了。<br/>
 <img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E6%90%9C%E7%8B%97%E9%94%AE%E7%9B%985c%E6%A0%87%E6%B3%A8.png" title="搜狗输入法5c标注" alt="搜狗输入法5c标注"/><br/>
 <img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E6%90%9C%E7%8B%97%E9%94%AE%E7%9B%986p%E6%A0%87%E6%B3%A8.png" title="搜狗输入法6p标注" alt="搜狗输入法6p标注"/></p>
 
@@ -246,7 +246,7 @@ iPad 3(4)       {768 x 1024}  2x   {1536 x 2048}
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/">屏幕适配二三事（一）—— 屏适的几种基本情况讨论</a>
+        <a href="/blog/2015/05/10/ping-mu-shi-pei-er-san-shi-1/">屏幕适配二三事（一）—— 屏适的几种基本情况讨论</a>
       </li>
     
       <li class="post">
@@ -284,8 +284,8 @@ iPad 3(4)       {768 x 1024}  2x   {1536 x 2048}
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/';
-        var disqus_url = 'http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi/';
+        var disqus_identifier = 'http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi-1/';
+        var disqus_url = 'http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi-1/';
         var disqus_script = 'embed.js';
       
     (function () {
