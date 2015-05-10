@@ -23,7 +23,7 @@ categories: 杂谈
 
 ###背景
 　　屏幕适配一直是老生常谈的话题，也一直是移动端app的重点之一。Apple每次新设备的发布，都会给iOS开发者带来一场灾难。如何最高效率地完成所有适配，成为一个新的讨论议题。  
-　　闲话稍叙，上场景。  
+　　闲话稍叙，看场景。  
 
 ###场景一 —— 微信聊天“表情选取栏”
 <img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/3%2F%E5%BE%AE%E4%BF%A1%E8%A1%A8%E6%83%85%E9%A6%96%E9%A1%B55c.jpg" title="微信聊天“表情选取栏”" alt="微信聊天“表情选取栏”"/>  
