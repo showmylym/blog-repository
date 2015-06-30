@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 杂谈 | 电一闪的博客]]></title>
   <link href="http://showmylym.github.io/blog/categories/za-tan/atom.xml" rel="self"/>
   <link href="http://showmylym.github.io/"/>
-  <updated>2015-06-05T23:29:30+08:00</updated>
+  <updated>2015-06-30T22:53:47+08:00</updated>
   <id>http://showmylym.github.io/</id>
   <author>
     <name><![CDATA[雷一鸣(Jerry)]]></name>
@@ -12,6 +12,197 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Swift学习笔记]]></title>
+    <link href="http://showmylym.github.io/blog/2015/06/30/swift-xue-xi-bi-ji/"/>
+    <updated>2015-06-30T21:25:12+08:00</updated>
+    <id>http://showmylym.github.io/blog/2015/06/30/swift-xue-xi-bi-ji</id>
+    <content type="html"><![CDATA[<h3>背景</h3>
+
+<p>　　swift2.0本月刚刚发布，在1.0基础上，增加了些许<a href="http://www.csdn.net/article/2015-06-09/2824909-xcode-7-beta-and-swift/2">新特性</a>，改变了1.0中少量语法。</p>
+
+<h3>Swift 1.0理解畅谈</h3>
+
+<h4>一、优势</h4>
+
+<p>　　1、if x = y是错误代码，在Swift里会报编译错。<br/>
+　　2、溢出运算符、运算符重载。<br/>
+　　3、swift可以对浮点数取余 8%2.5结果为0.5。<br/>
+　　4、OC时代</p>
+
+<pre><code>return str1 != nil ? str1 : defaultStr
+</code></pre>
+
+<p>　　现在swift里可以简化为</p>
+
+<pre><code>return str1 ?? defaultStr。  
+</code></pre>
+
+<p>　　5、Unicode字符标量方便表示，比如 let oneUniChar = “\u{2665}”。<br/>
+　　6、作为基础类型之一的String，其赋值时可视作深拷贝（实际大多数情况下不是），又经swift编译器优化，在必要时才会深拷贝，以提高性能。<br/>
+　　7、向数组中加入元素可以直接用运算符+=，前提是保证被加入的元素与数组本身的元素类型保持一致。<br/>
+　　8、可以方便地将数组中某一范围的元素，替换为另一数组，且前后数量可以不匹配。例如</p>
+
+<pre><code>var elements = ["lym1", "lym2", "lym3"]
+elements[1...2] = ["lym4"]
+</code></pre>
+
+<p>　　这样数组elements就被修改为[&ldquo;lym1&rdquo;, &ldquo;lym4&rdquo;]。<br/>
+　　9、for-in循环支持区间、序列、集合、系列遍历，使用_可以方便控制只循环次数且不对值访问。<br/>
+　　10、使用switch不再需要break语句，且case的条件判断可以使用if语句样式的条件表达式（例如区间、元组、字符串），因此原来各种条件判断、计算结果非整型的表达式，现在都可以使用switch来提高判断效率。<br/>
+　　11、switch语句默认不再有贯穿case的做法（case之间不写break），而是显式地使用fallthrough关键字，不丢弃贯穿特性，同时意图更加清晰。<br/>
+　　12、使用标签标注“循环”或“switch代码段”，方便地跳出多重循环（第一次了解这个概念是在学习java时，可以说是借鉴）。<br/>
+　　13、swift中简化了函数重载，C++中函数重载需要多次函数定义，而OC原本不支持函数重载，现swift使用函数默认参数值即可在一次函数定义中实现函数重载。例如，方法定义：</p>
+
+<pre><code>func testOverrideMethod(value1:Int16, value2:Int16 = 2) {
+    print("testOverrideMethod, value1:\(value1), value2:\(value2)")
+}  
+testOverrideMethod(1, value2: 22)  
+</code></pre>
+
+<p>　　如果给参数设置了默认值，那么调用方法时必须指明参数名；否则调用时可以不用写名&#8221;value2:&ldquo;。<br/>
+　　14、swift中函数传值时，如果外部对象真正的值想在函数体中被修改，使用inout关键字修饰变量，用以替代指针的指针这样的复杂概念“**”，例如：</p>
+
+<pre><code>func swap (inout value1 : Int16, inout value2 : Int16) {
+    var tempValue = value1
+    value1 = value2
+    value2 = tempValue
+}
+var value1 = 1, value2 = 2
+//打印结果"value1:1, value2:2"
+print("value1:\(value1), value2:\(value2)") 
+swap(&amp;value1, &amp;value2)
+//打印结果"value1:2, value2:1"
+print("value1:\(value1), value2:\(value2)")
+</code></pre>
+
+<p>　　15、swift中的枚举可支持任意类型，包括但不限于Int、String、Bool、Tuple(元组)，且可以在一个枚举定义中支持任意多种成员类型。<br/>
+　　16、swift拥有“可失败构造器”。在OC中，常常碰到先alloc分配内存，再initWithXXX传递参数初始化，可在某些条件下（比如参数类型错误）无法初始化有意义的对象，为instance分配内存就造成了时间空间浪费。具体做法是，swift类构造器的init关键字后紧跟问号，方法定义写成init?(xxx)，在满足失败条件时，返回nil。<br/>
+　　17、与OC同时期的C++早就有了泛型的概念，而OC一直缺乏，现在swift补上了这一空缺。</p>
+
+<h4>二、陷阱</h4>
+
+<p>　　1、使用countElements计算字符串长度是基于unicode，而NSString的length方法则是基于UTF-16，因此NSString的length属性在被swift的String访问时，会成为utf16count。<br/>
+　　2、在swift中构造的类，OC中无法继承。<br/>
+　　3、为了避免循环引用，在OC中导入swift类，需要在.h文件中用@class声明，.m文件中导入。<br/>
+　　4、swift用于判断两个类实例对象是否为同一对象的运算符为”===“和”!==“，分别名为“等价于”和“不等价于”。而实例具体内容是否相等需要根据类中定义的“等于”（==）方法判定，该方法属运算符重载。<br/>
+　　5、swift中的String、Array、Dictionary类型均为结构体类型，赋值时为深拷贝赋值；不同于OC中NSString、NSArray、NSDictionary的浅拷贝，即复制引用。不过swift会在后台完成性能优化，以确保在有需要时才做深拷贝。<br/>
+　　6、swift的构造器，构造顺序与OC相反。OC中必须先调用父类初始化方法，才能初始化子类变量；而swift必须先给子类未初始化的变量赋值，再调用父类指定构造器(Desinated)。其本质原因为，swift加强了构造安全，目的是准确分配内存。具体步骤为：</p>
+
+<pre><code>a. 初始化子类中所有引入的存储型属性 
+b. 调用父类指定构造器。按此步骤，直到祖先类最顶端的指定构造器调用完成，才算子类实例完全初始化，此时self成为一个有效的引用型变量
+c. 自顶向下，让各个子类有机会修改继承来的存储型变量。
+</code></pre>
+
+<p>　　反观OC，在子类初始化时，自下向上调用初始化方法，先使self成为有效对象，再为子类变量分配内存。无所谓孰优孰劣，只是swift在构造器的安全性上略有提升。<br/>
+　　7、在定义子类时，想要继承父类所有构造器，必须没有定义任何子类构造函数；或子类覆盖实现了所有父类指定构造器(Desinated)。这样设计的目的，个人猜想是为了让子类更纯粹，不暴露无关的父类构造器以致混淆类定义，强化类的目的性。<br/>
+　　8、便利构造器(Convenience)不可继承，且实现中必须以调用指定构造器结束(Desinated)。它在类中起辅助作用，目的是减少构造器中的重复代码。<br/>
+　　9、swift中的前缀运算符与后缀运算符，必须紧跟变量，中间不能插空格。例如，OC中常写i ++，但在swift中必须i++。</p>
+
+<h4>三、与OC对比</h4>
+
+<p>　　1、swift有简单明了的函数声明。首先，它有内部参数名，在调用时会被当作占位符。<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/5%2F1.png"><br/>
+　　这一块乍看起来像JS，但仔细观察，会发现一些OC的影子。比如倒数第二行带占位符的函数调用，参数名后跟“:value”，是典型的OC风格。
+不仅于此，为了防止代码编写完成后由于没有内部参数名而难以阅读，swift还增加了外部参数名机制。代码如下<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/5%2F2.png"><br/>
+　　&#8221;from&#8221;和&#8221;say&#8221;作为外部参数名，用于显式描述参数用途。另，在内部参数名前使用#标注，即可同时作为内外部参数名。<br/>
+　　2、我觉得，swift彻底把“方法”（函数）变成了“block”（命名闭包）。比如这段代码: <br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/5%2F3.png"><br/>
+　　根据传入值的true or false，返回在函数内部定义的函数变量。使用OC的block实现如下，是否有异曲同工之妙？<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/5%2F4.png"><br/>
+　　3、swift的尾随闭包非常简便易用，但简写的方法非常跳跃。（小屏请横屏查看）<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/5%2F5.png"><br/>
+代码：</p>
+
+<pre><code>//闭包作为函数的最后一个参数时，可以改写为尾随闭包
+//定义一个函数，其参数是一个类型为Int64，返回值为Void的闭包closure
+func someFuncForTestClosure (closure:(Int64) -&gt; Void) {
+    closure(4)
+}
+//调用已定义的函数，并定义闭包作为参数
+someFuncForTestClosure ({ (para) -&gt; Void in
+    print("调用了closure,参数为\(para)")
+    print("调用了closure,参数为\(para)")
+})
+//如果闭包特别复杂特别长，尾随闭包作用凸显
+someFuncForTestClosure (){ (para) -&gt; Void in
+    print("调用了closure,参数为\(para)")
+    print("调用了closure,参数为\(para)")
+    print("调用了closure,参数为\(para)")
+    print("调用了closure,参数为\(para)")
+    print("调用了closure,参数为\(para)")
+}
+//尾随闭包前的函数参数括号也可以省略
+//不理解缩写过程咋一看还以为是函数定义
+someFuncForTestClosure { (para) -&gt; Void in
+    print("调用了closure,参数为\(para)")
+    print("调用了closure,参数为\(para)")
+}
+//简直丧心病狂，还可以简写为
+someFuncForTestClosure { 
+    print("调用了closure,参数为\($0)")
+    print("调用了closure,参数为\($0)")
+}
+</code></pre>
+
+<p>　　4、swift中，可变类型和常量类型用关键字声明区分，var代表变量，let代表常量。而原来OC中使用两种类NSXXX和NSMutableXXX定义是否可变。<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/5%2F6.png"><br/>
+　　5、swift三种元类型在修改self值时的区别。其中class修改self或实例属性最简单；struct需要将关键字mutating作为方法前缀才能实现；enum枚举无法实现，因其无法定义存储型变量，只能定义case。</p>
+
+<pre><code>//class类
+class Point {
+    var x = 0.0, y = 0.0
+    //class中的函数，对self的值想怎么改就怎么改
+    func moveByX(deltaX: Double, y deltaY: Double) {
+        self.x += deltaX
+        self.y += deltaY
+    }
+    init(x:Double, y:Double) {
+        self.x = x
+        self.y = y
+    }
+}
+var somePoint = Point(x: 1.0, y: 1.0)
+somePoint.moveByX(2.0, y: 3.0)
+println("The point is now at (\(somePoint.x), \(somePoint.y))")
+// 输出 "The point is now at (3.0, 4.0)"
+
+//struct结构体
+struct Point_struct {
+    var x = 0.0, y = 0.0
+    //要修改self的值，必须在声明前添加mutating关键字
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        self.x += deltaX
+        self.y += deltaY
+    }
+    init(x:Double, y:Double) {
+        self.x = x
+        self.y = y
+    }
+}
+var somePoint_struct = Point_struct(x: 1.0, y: 1.0)
+somePoint_struct.moveByX(2.0, y: 3.0)
+println("The point is now at (\(somePoint_struct.x), \(somePoint_struct.y))")
+// 输出 "The point is now at (3.0, 4.0)"
+
+//枚举，无法实现
+enum Point_enum {
+    //报错：枚举定义不能包含存储属性
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        self.x += deltaX
+        self.y += deltaY
+    }
+    init(x:Double, y:Double) {
+        self.x = x
+        self.y = y
+    }
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[App日志查看器]]></title>
