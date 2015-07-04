@@ -9,9 +9,7 @@
   <meta name="author" content="雷一鸣(Jerry)">
 
   
-  <meta name="description" content="背景 　　swift2.0本月刚刚发布，在1.0基础上，增加了些许新特性，改变了1.0中少量语法。 Swift 1.0理解畅谈 一、优势 　　1、if x = y是错误代码，在Swift里会报编译错。
-　　2、溢出运算符、运算符重载。
-　　3、swift可以对浮点数取余 8%2.5结果为0.5 &hellip;">
+  <meta name="description" content="背景 　　适时搞点新鲜玩意，增加挑战性，同时学以致用。 混编第一步：创建桥接头文件，让Swift调用OC 　　添加一个swift文件到工程，这时会提示是否创建一个桥接头文件。如下图所示： 　　自动创建的桥接文件命名格式为ProductName-Bridging-Header.h， &hellip;">
   
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -64,6 +62,116 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/04/Swift-yu-Objective-c-hun-bian/">Swift与Objective-c混编</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-04T12:39:12+08:00" pubdate data-updated="true">2015-07-04 12:39:12 +0800</time>
+        
+           | <a href="/blog/2015/07/04/Swift-yu-Objective-c-hun-bian/#disqus_thread"
+             data-disqus-identifier="http://showmylym.github.io/blog/2015/07/04/Swift-yu-Objective-c-hun-bian/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>背景</h3>
+
+<p>　　适时搞点新鲜玩意，增加挑战性，同时学以致用。</p>
+
+<h3>混编第一步：创建桥接头文件，让Swift调用OC</h3>
+
+<p>　　添加一个swift文件到工程，这时会提示是否创建一个桥接头文件。如下图所示：<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/6%2F6.png"><br/>
+　　自动创建的桥接文件命名格式为ProductName-Bridging-Header.h，默认在当前添加Swift文件的同一目录（如要更换文件存放目录，在project settings中搜索，修改指定项的值给予新路径即可）。该文件中用于导入给swift文件使用的OC类，使用#import &ldquo;xxx.h&#8221;的OC语法导入，文件名及内容如下所示。（导入OC头文件一直都没有提示，But it works.）<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/6%2F1.png"><br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/6%2F2.png"><br/>
+　　导入后，在swift文件中，便可用swift的方式调用。如下图
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/6%2F3.png"></p>
+
+<h3>混编第二步：导入swift头文件，让OC调用Swift</h3>
+
+<p>　　第一步完成后可在Swift中调用OC类，而反向调用应该怎么做呢？答案是，导入Xcode自动生成的隐式Swift类的头文件。如下图：<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/6%2F4.png"><br/>
+　　这个隐式文件由Xcode自动生成，且只需导入它，便可调用所有swift类。需要注意的是，在必要的.m文件中再导入，防止头文件引用循环，也加快编译速度。<br/>
+　　基本规则如下表所示：</p>
+
+<table border="1", class="table table-bordered table-striped table-condensed">
+    <tr>
+        <td></td>
+        <td>调用Swift代码</td>
+        <td>调用OC代码</td>
+    </tr>
+    <tr>
+        <td>Swift代码</td>
+        <td>无需声明</td>
+        <td>依赖ProductModuleName-Bridging-Header.h文件</td>
+    </tr>
+    <tr>
+        <td>OC代码</td>
+        <td>#import &#8220;ProductModuleName-Swift.h&#8221;</td>
+        <td>#import &#8220;Header.h&#8221;</td>
+    </tr>
+</table>
+
+
+<p></p>
+
+<h3>混编第三步：定义类和协议遵从</h3>
+
+<p>　　使用Swift创建一个UIBaseViewController的子类，需要使用如下代码声明class。</p>
+
+<pre><code>class MLF_Tab_Me_MyCardsViewController: UIBaseViewController {
+
+}
+</code></pre>
+
+<p>　　如果要实现某个协议，则继续在UIBaseViewController后面用逗号分隔协议，比如：</p>
+
+<pre><code>class MLF_Tab_Me_MyCardsViewController: UIBaseViewController, UITableViewDelegate, UITableViewDatasource {
+    var mainTableView : UITableView!
+}
+</code></pre>
+
+<p>　　传统OC中，若采用纯代码初始化界面，一般都是在viewDidLoad中完成；但swift默认必须在调用super.init构造方法前就初始化新增成员。不过像上述代码中添加mainTableView那样，使用implicitly unwrapped optional（隐式解析可选）类型，可以延迟到viewDidLoad时初始化，默认初始值为nil。</p>
+
+<h3>混编第四步：适应新的Json反序列化机制</h3>
+
+<p>　　Swift的Json反序列化，对类型要求十分严格。由于Swift的原生String类型没有足够的方法转数字类型，因此很有必要将原生对象转换为NSString或NSNumber。而这样的类型转换，必须对原生的可选类型对象做force unwrapping(强制解析)才能type casting(类型转换)。对一个nil值做force unwrapping操作，会引发运行时错误。</p>
+
+<pre><code>fatal error: unexpectedly found nil while unwrapping an Optional value
+</code></pre>
+
+<p>　　不知道会不会有人问，为什么要用可选类型？因为只有可选类型才能被赋值为nil。假若给非可选类型显式赋值nil，编译时报错；隐式赋值nil，引发运行时错误。如下图，程序运行完31行后就crash了。<br/>
+<img src="http://showmylym-blog.oss-cn-shenzhen.aliyuncs.com/6%2F5.png"><br/>
+　　从程序健壮性角度而论，客户端是不能假定某个key一定可以取到value的，因此反序列化后对象为nil是常有的现象。OC中的运行时动态类型机制，决定了类型检查相对宽松，给nil发送消息，运行时会自动忽略该条消息。<br/>
+　　另外，OC中NSString和NSNumber几乎有相同的取值方法，且基于运行时动态类型，json反序列化时无需检查对象类型便可直接调用那些同名的取值方法。比如给NSString或NSNumber对象发送longLongValue消息，都能作为int64_t类型取出值；对象为nil也没关系，取出的值为0。但在Swift中，类型如果错误，会直接报运行时错，导致crash。<br/>
+　　综上述，这样的规则可以让人感觉出，Swift更加注重安全性，要求更多地用代码显式表明行为。个人认为，如何在遵循Swift新规则的前提下，减少条件表达式的代码量，将是一项值得研究的议题，也可能是Swift后续版本可能优化的地方。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -704,79 +812,9 @@ self.mainDraggableView.backgroundColor = [UIColor whiteColor];
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti/">GithubPage页面国内打开缓慢的问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-29T12:23:23+08:00" pubdate data-updated="true">2014-11-29 12:23:23 +0800</time>
-        
-           | <a href="/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti/#disqus_thread"
-             data-disqus-identifier="http://showmylym.github.io/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>　　其实早在两年前，我在<a href="http://www.cnblogs.com/showmylym" title="博客园">博客园</a>创建过个人博客，零零散散写了些很业余的东西，没有系统性地写，与编程也没有太大关系，没能坚持。在最近的工作中，有了分享意识，并且发现一个知识点如果能够给别人讲懂，知识点会融入进自己的知识体系，理解程度会有质的变化。因此决定重新做一个专业的博客，一来给自己总结，二来可能会帮助到其他人。虽然国内技术博客站不少，但大多都掺杂太多广告，不够纯粹，考虑到平时频繁用到github找代码，遂决定在github上建博客，与自己的开源代码结合。这次一定可以坚持下去:)<br/>
-　　不过一上来就碰到国内打开博客页面慢的问题，且翻墙时灵时不灵。跟了一下页面加载的过程，发现首页有四个链接加载超时，如下图1-1。<br/>
-<img src="/images/1/1-1.png" title="图1-1" alt="图1-1" /><br/>
-图1-1<br/>
-　　Copy出来，四个URL如下：<br/>
-　　<code>https://fonts.googleapis.com/css?family=Open+Sans:400,700</code><br/>
-　　<code>http://platform.twitter.com/widgets.js</code><br/>
-　　<code>http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js</code><br/>
-　　<code>https://fonts.googleapis.com/css?family=Noto+Serif:400,700</code><br/>
-　　首先关掉twitter账户关联。按照<a href="http://wenku.baidu.com/view/8a146ba2d0d233d4b14e69ae.html" title="HTML页面的加载过程">HTML页面的加载过程</a>，浏览器首先解析页面结构，再加载外部CSS和script。如果在<code>&lt;head&gt;</code>标签里碰到<code>&lt;script&gt;</code>，则解析页面结构时就会加载脚本。此时若网络延迟较大，会出现长时间的白屏。猜测首页打开缓慢应当是这个原因，因此参考<a href="http://blog.csdn.net/chang_yuan_2011/article/details/7881606" title="不同javascript加载方式对页面性能的影响">不同javascript加载方式对页面性能的影响</a>，首先尝试将script放在body结尾前执行。<br/>
-　　打开octopress博客源代码的source目录，使用grep命令搜索内容中带有&#8221;script&#8221;的文件(i为忽略大小写，r为递归查找，l为以文件列表形式显示)。<br/>
-　　<code>grep -irl script | grep htm</code><br/>
-　　搜索结果如下图1-2。<br/>
-<img src="/images/1/1-2.png" title="图1-2" alt="图1-2" /><br/>
-图1-2<br/>
-　　文件有点多，不好找。考虑过后，决定直接搜索图1-1中标红的那几个URL。搜索命令分别为：<br/>
-　　<code>grep -irl jquery | grep htm</code> <br/>
-　　<code>grep -irl https://fonts.googleapis.com/css?family=Noto+Serif:400,700 | grep htm</code> <br/>
-　　<code>grep -irl https://fonts.googleapis.com/css?family=Open+Sans:400,700 | grep htm</code> <br/>
-　　根据结果了解到，调用这三条URL的执行语句，在<em>includes/head.html和</em>includes/custom/head.html中，对其做如下图1-3和图1-4的修改。<br/>
-<img src="/images/1/1-3.png" title="图1-3" alt="图1-3" /><br/>
-图1-3<br/>
-<img src="/images/1/1-4.png" title="图1-4" alt="图1-4" /><br/>
-图1-4<br/>
-　　修改完毕刷新页面。页面显示很快，但在Chrome的网络控制台上，显示还有4个URL访问缓慢，如下图1-5。<br/>
-<img src="/images/1/1-5.png" title="图1-5" alt="图1-5" /><br/>
-图1-5<br/>
-　　继续搜索关键字&#8221;gstatic&#8221;<br/>
-　　<code>grep -irl gstatic</code><br/>
-　　搜索结果如下图1-6<br/>
-<img src="/images/1/1-6.png" title="图1-6" alt="图1-6" /><br/>
-图1-6<br/>
-　　打开这两个刚刚创建的css样式文件，很明显可以看到其引用了不少gstatic.com上存储的woff2格式的web开放字体文件。目前还没发觉其对页面显示有何影响，花点时间将它们定位到本地吧。<br/>
-　　哈哈，问题到此已解决，打开首页显示速度快多了:)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="2">&larr; Older</a>
     
     <a href="/blog/archives">查看博客列表</a>
     
@@ -797,6 +835,10 @@ self.mainDraggableView.backgroundColor = [UIColor whiteColor];
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/07/04/Swift-yu-Objective-c-hun-bian/">Swift与Objective-c混编</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/06/30/swift-xue-xi-bi-ji/">Swift学习笔记</a>
       </li>
     
@@ -810,10 +852,6 @@ self.mainDraggableView.backgroundColor = [UIColor whiteColor];
     
       <li class="post">
         <a href="/blog/2015/01/06/tu-biao-guan-li-kong-jian-de-shi-xian-lei-si-yu-ioszhu-ye-de-xiao-guo/">图标管理控件的实现-类似于iOS主页的效果</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti/">GithubPage页面国内打开缓慢的问题</a>
       </li>
     
   </ul>

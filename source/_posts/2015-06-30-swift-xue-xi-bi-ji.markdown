@@ -3,7 +3,7 @@ layout: post
 title: "Swift学习笔记"
 date: 2015-06-30 21:25:12 +0800
 comments: true
-categories: 杂谈
+categories: Swift
 ---
 ###背景
 　　swift2.0本月刚刚发布，在1.0基础上，增加了些许[新特性](http://www.csdn.net/article/2015-06-09/2824909-xcode-7-beta-and-swift/2)，改变了1.0中少量语法。
