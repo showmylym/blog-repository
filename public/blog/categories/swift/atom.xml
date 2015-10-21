@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Swift | 电一闪的博客]]></title>
   <link href="http://showmylym.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://showmylym.github.io/"/>
-  <updated>2015-07-04T14:25:19+08:00</updated>
+  <updated>2015-10-21T22:37:37+08:00</updated>
   <id>http://showmylym.github.io/</id>
   <author>
     <name><![CDATA[雷一鸣(Jerry)]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[拍照产生的图片-UIImageOrientation]]></title>
+    <link href="http://showmylym.github.io/blog/2015/07/04/pai-zhao-chan-sheng-de-tu-pian-UIImageOrientation-shu-xing-fen-xi/"/>
+    <updated>2015-07-04T12:39:12+08:00</updated>
+    <id>http://showmylym.github.io/blog/2015/07/04/pai-zhao-chan-sheng-de-tu-pian-UIImageOrientation-shu-xing-fen-xi</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift与Objective-c混编]]></title>

@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>搭建企业级app分发服务器 - 电一闪的博客</title>
+  <meta name="author" content="雷一鸣(Jerry)">
+
+  
+  <meta name="description" content="一、配置证书: 1、生成key 　　在apache2目录下，新建ssl目录 sudo mkdir /private/etc/apache2/ssl
+cd /private/etc/apache2/ssl
+sudo ssh-keygen -f server.key 　　这里不设置RSA口令 2、 &hellip;">
+  
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://showmylym.github.io/blog/2015/10/21/da-jian-qi-ye-ji-app-fen-fa-fu-wu-qi">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="电一闪的博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+<!--注释掉在线获取jquery的语句，为了在国内稳定打开页面-->
+  <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"--><!--/script-->
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--这两个资源URL在国内访问不稳定，因此从本地调用 -->
+<!-- link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css' -->
+<!-- link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' -->
+
+  <link href="/stylesheets/noto_serif.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/open_sans.css" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">电一闪的博客</a></h1>
+  
+    <h2>平凡亦有极致体现</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
+<ul class="main-navigation">
+  <li><a href="/">最近博客</a></li>
+  <li><a href="/blog/archives">博客列表</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">搭建企业级app分发服务器</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-21T22:14:12+08:00" pubdate data-updated="true">2015-10-21 22:14:12 +0800</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://showmylym.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>一、配置证书:</h3>
+
+<h4>1、生成key</h4>
+
+<p>　　在apache2目录下，新建ssl目录</p>
+
+<pre><code>sudo mkdir /private/etc/apache2/ssl
+cd /private/etc/apache2/ssl
+sudo ssh-keygen -f server.key
+</code></pre>
+
+<p>　　这里不设置RSA口令</p>
+
+<h4>2、生成请求文件</h4>
+
+<pre><code>sudo openssl req -new -key server.key -out request.csr
+</code></pre>
+
+<h4>3、生成SSL证书</h4>
+
+<pre><code>sudo openssl x509 -req -days 365 -in request.csr -signkey server.key -out server.crt
+</code></pre>
+
+<p>　　至此，生成/private/etc/apache2/ssl/目录下&#8221;request.csr&#8221; &ldquo;server.crt&rdquo; &ldquo;server.key&rdquo; &ldquo;server.key.pub&#8221;四个文件</p>
+
+<h3>二、配置apache让其支持https</h3>
+
+<h4>1、修改/private/etc/apache2/httpd.conf文件，去掉下面三行前面的注释符号</h4>
+
+<pre><code>LoadModule ssl_module libexec/apache2/mod_ssl.so
+LoadModule socache_shmcb_module libexec/apache2/mod_socache_shmcb.so
+Include /private/etc/apache2/extra/httpd-ssl.conf
+Include /private/etc/apache2/extra/httpd-vhosts.conf
+</code></pre>
+
+<h4>2、修改/private/etc/apache2/extra/httpd-ssl.conf ，去掉下面两行前面的 &lsquo;#&rsquo;</h4>
+
+<pre><code>SSLCertificateFile "/private/etc/apache2/ssl/server.crt"
+SSLCertificateKeyFile "/private/etc/apache2/ssl/server.key"
+</code></pre>
+
+<h4>3、修改/private/etc/apache2/extra/httpd-vhosts.conf，在 &lsquo;NameVirtualHost * :80&rsquo; 后面添加：</h4>
+
+<pre><code>NameVirtualHost *:443
+</code></pre>
+
+<p>　　在文件末尾添加：</p>
+
+<pre><code>&lt;VirtualHost *:443&gt;
+SSLEngine on
+SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+SSLCertificateFile /private/etc/apache2/ssl/server.crt
+SSLCertificateKeyFile /private/etc/apache2/ssl/server.key
+ServerName localhost
+DocumentRoot "（此为Apache工作根目录）"
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<h3>三、架设企业级应用服务。</h3>
+
+<h4>1、生成install.html</h4>
+
+<p>　　代码如下所示</p>
+
+<pre><code>&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+&lt;style type="text/css"&gt;
+    * {
+        font-size: 52px;
+    }
+
+    a {
+        line-height: 2.5;
+        padding: 20px;
+    }
+&lt;/style&gt;
+安装步骤：&lt;br/&gt;
+1、首次安装需要点击&lt;a href="https://192.168.1.239/server.crt" id="text"&gt;“安装证书”&lt;/a&gt;&lt;br/&gt;
+2、否则直接点击 &lt;br/&gt;
+&lt;a href="itms-services://?action=download-manifest&amp;url=https://192.168.1.239/g0/mlf.plist" id="text"&gt;“安装平台版app”&lt;/a&gt; &lt;br/&gt;
+</code></pre>
+
+<h4>2、手机需先安装server.crt。</h4>
+
+<p>　　因此拷贝/private/etc/apache2/ssl/server.crt到Apache根目录下，install.html中编写超链接指向该证书文件，供设备下载安装。</p>
+
+<h4>3、将mlf.plist mlf.ipa mlf.png存放在自定义目录下，并在install.html中指向它们。</h4>
+
+<p>　　mlf.plist代码如下所示</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+&lt;key&gt;items&lt;/key&gt;
+&lt;array&gt;
+    &lt;dict&gt;
+        &lt;key&gt;assets&lt;/key&gt;
+        &lt;array&gt;
+            &lt;dict&gt;
+                &lt;key&gt;kind&lt;/key&gt;
+                &lt;string&gt;software-package&lt;/string&gt;
+                &lt;key&gt;url&lt;/key&gt;
+                &lt;string&gt;https://192.168.1.239/g0/mlf.ipa&lt;/string&gt;
+            &lt;/dict&gt;
+            &lt;dict&gt;
+                &lt;key&gt;kind&lt;/key&gt;
+                &lt;string&gt;full-size-image&lt;/string&gt;
+                &lt;key&gt;needs-shine&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;url&lt;/key&gt;
+                &lt;string&gt;https://192.168.1.239/g0/mlf.png&lt;/string&gt;
+            &lt;/dict&gt;
+            &lt;dict&gt;
+                &lt;key&gt;kind&lt;/key&gt;
+                &lt;string&gt;display-image&lt;/string&gt;
+                &lt;key&gt;needs-shine&lt;/key&gt;
+                &lt;true/&gt;
+                &lt;key&gt;url&lt;/key&gt;
+                &lt;string&gt;https://192.168.1.239/g0/mlf.png&lt;/string&gt;
+            &lt;/dict&gt;
+        &lt;/array&gt;
+        &lt;key&gt;metadata&lt;/key&gt;
+        &lt;dict&gt;
+            &lt;key&gt;bundle-identifier&lt;/key&gt;
+            &lt;string&gt;cn.meilif.mlfinhouse&lt;/string&gt;
+            &lt;key&gt;bundle-version&lt;/key&gt;
+            &lt;string&gt;2.0&lt;/string&gt;
+            &lt;key&gt;kind&lt;/key&gt;
+            &lt;string&gt;software&lt;/string&gt;
+            &lt;key&gt;title&lt;/key&gt;
+            &lt;string&gt;美丽范&lt;/string&gt;
+        &lt;/dict&gt;
+    &lt;/dict&gt;
+&lt;/array&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">雷一鸣(Jerry)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-21T22:14:12+08:00" pubdate data-updated="true">2015-10-21 22:14:12 +0800</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/04/pai-zhao-chan-sheng-de-tu-pian-UIImageOrientation-shu-xing-fen-xi/" title="Previous Post: 拍照产生的图片-UIImageOrientation">&laquo; 拍照产生的图片-UIImageOrientation</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+   
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:showmylym.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Google一下(可能被墙)"/>
+  </fieldset>
+</form>
+  
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/10/21/da-jian-qi-ye-ji-app-fen-fa-fu-wu-qi/">搭建企业级app分发服务器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/04/pai-zhao-chan-sheng-de-tu-pian-UIImageOrientation-shu-xing-fen-xi/">拍照产生的图片-UIImageOrientation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/07/04/Swift-yu-Objective-c-hun-bian/">Swift与Objective-c混编</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/30/swift-xue-xi-bi-ji/">Swift学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/06/04/app-ri-zhi-cha-kan-qi/">App日志查看器</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - 雷一鸣(Jerry) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'showmylym';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://showmylym.github.io/blog/2015/10/21/da-jian-qi-ye-ji-app-fen-fa-fu-wu-qi/';
+        var disqus_url = 'http://showmylym.github.io/blog/2015/10/21/da-jian-qi-ye-ji-app-fen-fa-fu-wu-qi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
+
+
+</body>
+</html>
