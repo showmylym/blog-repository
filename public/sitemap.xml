@@ -3,53 +3,51 @@
   <url>
     <loc>http://showmylym.github.io/blog/2015/10/21/da-jian-qi-ye-ji-app-fen-fa-fu-wu-qi/</loc>
     <lastmod>2015-10-21T22:14:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2015/07/04/pai-zhao-chan-sheng-de-tu-pian-UIImageOrientation-shu-xing-fen-xi/</loc>
     <lastmod>2015-07-04T12:39:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2015/07/04/Swift-yu-Objective-c-hun-bian/</loc>
     <lastmod>2015-07-04T12:39:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2015/06/30/swift-xue-xi-bi-ji/</loc>
     <lastmod>2015-06-30T21:25:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2015/06/04/app-ri-zhi-cha-kan-qi/</loc>
     <lastmod>2015-06-04T21:52:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2015/05/10/ping-mu-shi-pei-er-san-shi-1/</loc>
     <lastmod>2015-05-10T08:22:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2015/01/06/tu-biao-guan-li-kong-jian-de-shi-xian-lei-si-yu-ioszhu-ye-de-xiao-guo/</loc>
     <lastmod>2015-01-06T08:22:12+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/2014/11/29/githubpageye-mian-guo-nei-da-kai-huan-man-de-wen-ti/</loc>
     <lastmod>2014-11-29T12:23:23+08:00</lastmod>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/blog/archives/</loc>
-    <lastmod>2015-10-21T22:37:37+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>http://showmylym.github.io/</loc>
-    <lastmod>2015-10-21T22:37:37+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://showmylym.github.io/blog/categories/web/</loc>
+  </url>
+  <url>
+    <loc>http://showmylym.github.io/blog/categories/kong-jian/</loc>
+  </url>
+  <url>
+    <loc>http://showmylym.github.io/blog/categories/za-tan/</loc>
+  </url>
+  <url>
+    <loc>http://showmylym.github.io/blog/categories/swift/</loc>
   </url>
 </urlset>
